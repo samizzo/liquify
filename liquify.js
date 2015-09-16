@@ -11,6 +11,8 @@ var g_vertices, g_texCoords, g_indices, g_linesIndices;
 
 var g_mouse = { mouseDown: false, mousePos: { x: 0, y: 0 } };
 
+var g_showGrid = true;
+var g_radiusElement;
 
 function onImageLoaded() {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, g_image);
@@ -87,12 +89,17 @@ function onMouseMove(event) {
     }
 }
 
-function init() {
+function init(doHandlers) {
     g_canvas = document.getElementById('canvas');
 
-    g_canvas.addEventListener('mousedown', onMouseDown, false);
-    g_canvas.addEventListener('mouseup', onMouseUp, false);
-    g_canvas.addEventListener('mousemove', onMouseMove, false);
+    g_radiusElement = document.getElementById('radius');
+    g_radiusElement.value = RADIUS;
+
+    if (doHandlers) {
+        g_canvas.addEventListener('mousedown', onMouseDown, false);
+        g_canvas.addEventListener('mouseup', onMouseUp, false);
+        g_canvas.addEventListener('mousemove', onMouseMove, false);
+    }
 
     gl = g_canvas.getContext('webgl') || g_canvas.getContext('experimental-webgl');
 
@@ -137,8 +144,8 @@ function init() {
             g_vertices[vertIndex] = ((x / (NUM_VERTS - 1)) * 2) - 1;
             g_vertices[vertIndex + 1] = ((y / (NUM_VERTS - 1)) * 2) - 1;
 
-            g_texCoords[vertIndex] = (x / NUM_VERTS);
-            g_texCoords[vertIndex + 1] = 1 - (y / NUM_VERTS);
+            g_texCoords[vertIndex] = (x / (NUM_VERTS - 1));
+            g_texCoords[vertIndex + 1] = 1 - (y / (NUM_VERTS - 1));
 
             vertIndex += 2;
         }
@@ -180,6 +187,8 @@ function init() {
 
         vertIndex++;
     }
+
+    render();
 }
 
 function render() {
@@ -201,9 +210,40 @@ function render() {
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, g_indices, gl.STATIC_DRAW);
     gl.drawElements(gl.TRIANGLES, g_indices.length, gl.UNSIGNED_SHORT, 0);
 
-    gl.useProgram(g_lineProgram);
+    if (!g_showGrid) {
+        return;
+    }
 
+    gl.useProgram(g_lineProgram);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, g_linesIndicesBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, g_linesIndices, gl.STATIC_DRAW);
     gl.drawElements(gl.LINES, g_linesIndices.length, gl.UNSIGNED_SHORT, 0);
+}
+
+function onNumVerts() {
+    var numVertsElem = document.getElementById('numVerts');
+    var numVerts = numVertsElem.value;
+    numVerts = parseInt(numVerts) || 0;
+    if (numVerts <= 0) {
+        numVertsElem.value = NUM_VERTS;
+        return;
+    }
+
+    NUM_VERTS = numVerts;
+    init(false);
+}
+
+function onRadius() {
+    var radius = parseFloat(g_radiusElement.value) || 0;
+    if (radius <= 0) {
+        g_radiusElement.value = RADIUS;
+        return;
+    }
+
+    RADIUS = radius;
+}
+
+function onShowGrid() {
+    g_showGrid = !g_showGrid;
+    render();
 }

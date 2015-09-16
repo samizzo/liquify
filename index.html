@@ -31,7 +31,16 @@
             }
         </script>
     </head>
-    <body onload="init()" style="border: 0; padding: 0; margin: 0">
-        <canvas style="border: 0; padding: 0; margin: 0" id="canvas" width="512" height="512" />
+    <body onload="init(true)" style="border: 0; padding: 0; margin: 0">
+        <canvas style="border: 0; padding: 0; margin: 0" id="canvas" width="512" height="512"></canvas>
+        <br/>
+        Number of vertices: <input id="numVerts" value="32" onchange="onNumVerts()" />
+        <br/>
+        Radius: <input id="radius" value="0.8" onchange="onRadius()" />
+        <br/>
+        Show grid: <input id="showGrid" type="checkbox" checked onchange="onShowGrid()" />
+        <br/>
+        Drag with left mouse over the picture. Hold control while dragging to subtract.
+        <br/>
     </body>
 </html>
