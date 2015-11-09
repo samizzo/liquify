@@ -5,6 +5,7 @@ var g_canvas, gl;
 var g_image;
 var g_buffer, g_texCoordBuffer, g_indicesBuffer, g_linesIndicesBuffer;
 var g_positionLocation, g_texCoordLocation;
+var g_imageUniform;
 var g_texture;
 var g_program, g_lineProgram;
 var g_vertices, g_texCoords, g_indices, g_linesIndices;
@@ -113,6 +114,9 @@ function init(doHandlers) {
 
     g_positionLocation = gl.getAttribLocation(g_program, "a_position");
     g_texCoordLocation = gl.getAttribLocation(g_program, "a_texCoord");
+    g_imageUniform = gl.getUniformLocation(g_program, "u_image");
+
+    gl.uniform1i(g_imageUniform, 0);
 
     g_buffer = gl.createBuffer();
     g_texCoordBuffer = gl.createBuffer();
@@ -120,6 +124,7 @@ function init(doHandlers) {
     g_linesIndicesBuffer = gl.createBuffer();
 
     g_texture = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, g_texture);
 
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
