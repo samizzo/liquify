@@ -55,7 +55,7 @@ function mul(a, scalar) {
 
 function normalise(a) {
     var l = length(a);
-    return mul(a, l);
+    return mul(a, 1 / l);
 }
 
 function onMouseMove(event) {
@@ -73,7 +73,7 @@ function onMouseMove(event) {
             var l = distance(pos, v);
             if (l < RADIUS) {
                 var dir = sub(v, pos);
-                dir = normalise(dir);
+                dir = mul(dir, l);
                 if (event.ctrlKey) {
                     dir = mul(dir, l - RADIUS);
                 } else {
