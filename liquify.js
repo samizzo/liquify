@@ -1,3 +1,5 @@
+'use strict';
+
 var NUM_VERTS = 32;
 var RADIUS = 0.2;
 
@@ -105,16 +107,16 @@ function init(doHandlers) {
     gl = g_canvas.getContext('webgl') || g_canvas.getContext('experimental-webgl');
 
     // Load the shaders
-    var vertexShader = createShaderFromScriptElement(gl, '2d-vertex-shader');
-    var fragmentShader = createShaderFromScriptElement(gl, '2d-fragment-shader');
-    g_program = createProgram(gl, [ vertexShader, fragmentShader ]);
+    var vertexShader = window.createShaderFromScriptElement(gl, '2d-vertex-shader');
+    var fragmentShader = window.createShaderFromScriptElement(gl, '2d-fragment-shader');
+    g_program = window.createProgram(gl, [ vertexShader, fragmentShader ]);
 
-    var lineFragmentShader = createShaderFromScriptElement(gl, '2d-fragment-line-shader');
-    g_lineProgram = createProgram(gl, [ vertexShader, lineFragmentShader ]);
+    var lineFragmentShader = window.createShaderFromScriptElement(gl, '2d-fragment-line-shader');
+    g_lineProgram = window.createProgram(gl, [ vertexShader, lineFragmentShader ]);
 
-    g_positionLocation = gl.getAttribLocation(g_program, "a_position");
-    g_texCoordLocation = gl.getAttribLocation(g_program, "a_texCoord");
-    g_imageUniform = gl.getUniformLocation(g_program, "u_image");
+    g_positionLocation = gl.getAttribLocation(g_program, 'a_position');
+    g_texCoordLocation = gl.getAttribLocation(g_program, 'a_texCoord');
+    g_imageUniform = gl.getUniformLocation(g_program, 'u_image');
 
     gl.uniform1i(g_imageUniform, 0);
 
