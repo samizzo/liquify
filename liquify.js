@@ -1,7 +1,7 @@
 'use strict';
 
 var NUM_VERTS = 32;
-var RADIUS = 0.2;
+var RADIUS = 0.3;
 
 var g_canvas, gl;
 var g_image;
