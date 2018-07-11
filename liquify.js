@@ -14,7 +14,7 @@ var g_vertices, g_texCoords, g_indices, g_linesIndices;
 
 var g_mouse = { mouseDown: false, mousePos: { x: 0, y: 0 } };
 
-var g_showGrid = true;
+var g_showGrid = false;
 var g_radiusElement;
 
 function onImageLoaded() {
